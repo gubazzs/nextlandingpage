@@ -1,10 +1,18 @@
 @import "tailwindcss";
 
+/*
+  Variaveis globais basicas da aplicacao.
+  Tailwind v4 consegue consumir estas variaveis via o bloco `@theme inline`.
+*/
 :root {
-  --background: #ffffff;
+  --background: #f7f7f4;
   --foreground: #171717;
 }
 
+/*
+  Mapeia variaveis CSS para tokens do Tailwind.
+  Ex.: `bg-background`, `text-foreground`, `font-sans`.
+*/
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,15 +20,44 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/*
+  Estilo base do documento.
+  A fonte principal vem de `layout.tsx`, onde o Next injeta `--font-geist-sans`.
+*/
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+/* Scroll suave global para links de ancora como #sobre e #cases. */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Cor de selecao de texto alinhada com a paleta vermelha da marca. */
+::selection {
+  background: rgba(239, 68, 68, 0.2);
+  color: #111111;
+}
+
+/*
+  Classe utilitaria para titulos editoriais.
+  Use `font-display` em headings grandes quando quiser o visual serifado.
+*/
+.font-display {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.025em;
+}
+
+/*
+  Acessibilidade: se o usuario pediu menos movimento no sistema operacional,
+  removemos o scroll suave. Animacoes especificas tambem sao reduzidas no
+  `<style>` local de `src/app/page.tsx`.
+*/
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
